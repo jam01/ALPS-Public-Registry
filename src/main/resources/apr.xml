@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<alps version="1.0">
+    <doc>ALPS Document to describe APR API</doc>
+
+    <descriptor id="add" type="unsafe">
+        <descriptor href="#profile"/>
+    </descriptor>
+
+    <descriptor id="searchByTitle" type="safe">
+        <descriptor href="#title"/>
+    </descriptor>
+
+    <descriptor id="profile" type="semantic">
+        <descriptor id="title"/>
+        <descriptor id="alps" href="http://tools.ietf.org/html/draft-amundsen-richardson-foster-alps-01"/>
+        <descriptor id="tags"/>
+    </descriptor>
+</alps>
