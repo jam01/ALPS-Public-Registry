@@ -21,7 +21,7 @@ public class ProfileDTO extends ResourceSupport {
 	public static ProfileDTO mappedFrom(Profile profile) {
 		ProfileDTO toReturn = new ProfileDTO();
 		if (profile != null) {
-			toReturn.alps = AlpsDTO.mapFrom(profile.getAlps());
+			toReturn.alps = AlpsMapper.mapFrom(profile.getAlps());
 			toReturn.tags = profile.getTags();
 			toReturn.title = profile.getTitle();
 			toReturn.id = profile.getId();
@@ -33,7 +33,7 @@ public class ProfileDTO extends ResourceSupport {
 
 	public static Profile mapFrom(ProfileDTO profileDTO) {
 		Profile toReturn = new Profile(profileDTO.title);
-		toReturn.setAlps(AlpsDTO.mapFrom(profileDTO.alps));
+		toReturn.setAlps(AlpsMapper.mapFrom(profileDTO.alps));
 		toReturn.setTags(profileDTO.tags);
 
 		return toReturn;

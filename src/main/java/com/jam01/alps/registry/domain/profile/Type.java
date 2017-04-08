@@ -8,9 +8,4 @@ public enum Type {
 	SAFE,
 	IDEMPOTENT,
 	UNSAFE;
-
-//	@Override
-//	public String toString() {
-//		return name();
-//	}
 }

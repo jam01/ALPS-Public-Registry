@@ -6,8 +6,14 @@ package com.jam01.alps.registry.domain.profile;
 public class Id {
 	private final String value;
 
-	public Id(String value) {
-		this.value = value;
+	private Id(String id) {
+		this.value = id;
+	}
+
+	public static Id from(String id) {
+		if (id == null || id.isEmpty())
+			return null;
+		return new Id(id);
 	}
 
 	public String getValue() {

@@ -4,47 +4,36 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 /**
  * Created by jam01 on 4/4/17.
  */
 public class Descriptor {
-	private Id id;
-	// See section 2.2.11
+	private final Id id;
+	private final Doc doc;
+	private final String name;
+	private final Type type;
+	private final URI _Id;
 	private Descriptor rt;
-	// See section 2.2.3
 	private Descriptor superDescriptor;
-	private Doc doc;
-	private String name;
 	private Ext ext;
-	// See section 2.2.12
-	private Type type = Type.SEMANTIC;
 	private List<Descriptor> descriptors = new ArrayList<>();
-	private URI location;
 
-	public Descriptor(URI location) {
-		this.location = location;
+	public Descriptor(Id id, Doc doc, String name) {
+		this(id, doc, name, Type.SEMANTIC, null);
 	}
 
-	public Descriptor() {
-	}
-
-	public Descriptor(Id id, Type type) {
-		setId(id);
+	public Descriptor(Id id, Doc doc, String name, Type type, URI uri) {
+		this.id = id;
+		this.doc = doc;
+		this.name = name;
 		this.type = type;
+		this._Id = uri;
 	}
 
-	public Descriptor(Id id) {
-		setId(id);
-	}
-
-	public URI getLocation() {
-		return location;
-	}
-
-	public void setLocation(URI location) {
-		this.location = location;
+	public URI get_Id() {
+		return _Id;
 	}
 
 	public Descriptor getSuperDescriptor() {
@@ -55,23 +44,8 @@ public class Descriptor {
 		this.superDescriptor = superDescriptor;
 	}
 
-	public void setResolvedDescriptor(Descriptor superDescriptor) {
-		if (!this.superDescriptor.location.equals(superDescriptor.getLocation()))
-			throw new IllegalArgumentException("Descriptors have wrong locations");
-		this.superDescriptor = superDescriptor;
-	}
-
 	public Id getId() {
 		return id;
-	}
-
-	public void setId(Id id) {
-		this.id = id;
-		try {
-			location = new URI("#" + id.getValue());
-		} catch (URISyntaxException e) {
-			throw new IllegalArgumentException("#" + id.getValue() + " Is not a valid argument to form a URI");
-		}
 	}
 
 	public Descriptor getRt() {
@@ -86,54 +60,27 @@ public class Descriptor {
 		return doc;
 	}
 
-	public void setDoc(Doc doc) {
-		this.doc = doc;
-	}
-
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public Ext getExt() {
 		return ext;
 	}
-
-	public void setExt(Ext ext) {
-		this.ext = ext;
-	}
+//
+//	public void setExt(Ext ext) {
+//		this.ext = ext;
+//	}
 
 	public Type getType() {
 		return type;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
 	}
 
 	public List<Descriptor> getDescriptors() {
 		return descriptors;
 	}
 
-	public void setDescriptors(List<Descriptor> descriptors) {
-		this.descriptors = descriptors;
-	}
-
-	public void addDescriptor(Descriptor toAdd) {
-		if (descriptors == null) descriptors = new ArrayList<>();
-		descriptors.add(toAdd);
-	}
-
-	public List<Id> getIdsRecursively() {
-		List<Id> toReturn = new ArrayList<>();
-		if (getId() != null)
-			toReturn.add(getId());
-		if (getDescriptors() != null)
-			toReturn.addAll(getDescriptors().stream().map(Descriptor::getId).collect(Collectors.toList()));
-
-		return toReturn;
+	public void addDescriptor(Descriptor descriptor) {
+		descriptors.add(descriptor);
 	}
 }

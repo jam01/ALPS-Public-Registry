@@ -7,14 +7,7 @@ public class Doc {
 	private final Format format;
 	private final String value;
 
-	public Doc(String value) {
-		this(Format.TEXT, value);
-	}
-
 	public Doc(Format format, String value) {
-		if (format == null) {
-			format = Format.TEXT;
-		}
 		this.format = format;
 		this.value = value;
 	}

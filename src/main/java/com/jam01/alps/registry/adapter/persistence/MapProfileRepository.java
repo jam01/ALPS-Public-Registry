@@ -3,10 +3,8 @@ package com.jam01.alps.registry.adapter.persistence;
 import com.jam01.alps.registry.domain.profile.*;
 import org.springframework.stereotype.Repository;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
@@ -25,8 +23,8 @@ public class MapProfileRepository implements ProfileRepository {
 		URI selfUrl, givenNameUrl, familyNameUrl, emailUrl, telephoneUrl;
 		try {
 			selfUrl = new URI("https://rawgithub.com/alps-io/profiles/master/contacts.xml");
-			givenNameUrl = new URI("http://schema.org/givenName");
-			familyNameUrl = new URI("http://schema.org/familyName");
+			givenNameUrl = new URI("http://schema.org/givenName#x");
+			familyNameUrl = new URI("http://schema.org/familyName#y");
 			emailUrl = new URI("http://schema.org/email");
 			telephoneUrl = new URI("http://schema.org/telephone");
 		} catch (URISyntaxException e) {
@@ -35,11 +33,11 @@ public class MapProfileRepository implements ProfileRepository {
 //
 //		Link self = new Link(new Rel("self"), selfUrl);
 //
-//		Id contactId = new Id("contact");
-//		Id searchId = new Id("search");
+//		Id contactId = Id.from("contact");
+//		Id searchId = Id.from("search");
 //
 //		Descriptor link = new Descriptor();
-//		link.setId(new Id("link"));
+//		link.setId(Id.from("link"));
 //		link.setType(Type.SAFE);
 //		link.setDoc(new Doc("link to contact"));
 //
@@ -50,29 +48,29 @@ public class MapProfileRepository implements ProfileRepository {
 //		search.setDoc(new Doc("search for contacts in the list"));
 //
 //		Descriptor searchName = new Descriptor();
-//		searchName.setId(new Id("name"));
+//		searchName.setId(Id.from("name"));
 //		searchName.setType(Type.SEMANTIC);
 //		searchName.setDoc(new Doc("input for searching"));
 //
 //		search.setDescriptors(Arrays.asList(searchName));
 //
 //		Descriptor givenName = new Descriptor();
-//		givenName.setId(new Id("givenName"));
+//		givenName.setId(Id.from("givenName"));
 //		givenName.setType(Type.SEMANTIC);
 //		givenName.setHref(new Href(givenNameUrl));
 //
 //		Descriptor familyName = new Descriptor();
-//		familyName.setId(new Id("familyName"));
+//		familyName.setId(Id.from("familyName"));
 //		familyName.setType(Type.SEMANTIC);
 //		familyName.setHref(new Href(familyNameUrl));
 //
 //		Descriptor email = new Descriptor();
-//		email.setId(new Id("email"));
+//		email.setId(Id.from("email"));
 //		email.setType(Type.SEMANTIC);
 //		email.setHref(new Href(emailUrl));
 //
 //		Descriptor telephone = new Descriptor();
-//		telephone.setId(new Id("telephone"));
+//		telephone.setId(Id.from("telephone"));
 //		telephone.setType(Type.SEMANTIC);
 //		telephone.setHref(new Href(telephoneUrl));
 //
@@ -89,27 +87,27 @@ public class MapProfileRepository implements ProfileRepository {
 //		profile.setAlps(dummy);
 //
 //		map.put("contacts", profile);
-		Descriptor contact = new Descriptor(new Id("contact"));
+		Descriptor contact = new Descriptor(Id.from("contact"), null, null);
 
-		Descriptor givenName = new Descriptor(new Id("givenName"));
-		givenName.setSuperDescriptor(new Descriptor(givenNameUrl));
+		Descriptor givenName = new Descriptor(Id.from("givenName"), null, null);
+		givenName.setSuperDescriptor(new Descriptor(null, null, null, Type.SEMANTIC, givenNameUrl));
 
-		Descriptor familyName = new Descriptor(new Id("familyName"));
-		familyName.setSuperDescriptor(new Descriptor(familyNameUrl));
+		Descriptor familyName = new Descriptor(Id.from("familyName"), null, null);
+		familyName.setSuperDescriptor(new Descriptor(null, null, null, Type.SEMANTIC, familyNameUrl));
 
 		contact.addDescriptor(givenName);
 		contact.addDescriptor(familyName);
 
-		Descriptor searchByGivenName = new Descriptor(new Id("searchByGivenName"), Type.SAFE);
+		Descriptor searchByGivenName = new Descriptor(Id.from("searchByGivenName"), null, null, Type.SAFE, null);
 		searchByGivenName.addDescriptor(givenName);
 		searchByGivenName.setRt(contact);
 
-		Descriptor addContact = new Descriptor(new Id("addContact"), Type.UNSAFE);
+		Descriptor addContact = new Descriptor(Id.from("addContact"), null, null, Type.UNSAFE, null);
 		addContact.addDescriptor(contact);
 		addContact.setRt(contact);
 
-		Alps dummy = new Alps();
-		dummy.setDescriptor(Arrays.asList(contact, addContact, searchByGivenName));
+		Alps dummy = new Alps("1.0", null, null);
+		dummy.setRoots(Arrays.asList(contact, addContact, searchByGivenName));
 
 		Profile profile = new Profile("Contacts Profile", dummy);
 

@@ -2,17 +2,17 @@
 <alps version="1.0">
     <doc>ALPS Document to describe APR API</doc>
 
-    <descriptor id="add" type="unsafe">
-        <descriptor href="#profile"/>
-    </descriptor>
+    <descriptors id="add" type="unsafe">
+        <descriptors href="#profile"/>
+    </descriptors>
 
-    <descriptor id="searchByTitle" type="safe">
-        <descriptor href="#title"/>
-    </descriptor>
+    <descriptors id="searchByTitle" type="safe">
+        <descriptors href="#title"/>
+    </descriptors>
 
-    <descriptor id="profile" type="semantic">
-        <descriptor id="title"/>
-        <descriptor id="alps" href="http://tools.ietf.org/html/draft-amundsen-richardson-foster-alps-01"/>
-        <descriptor id="tags"/>
-    </descriptor>
+    <descriptors id="profile" type="semantic">
+        <descriptors id="title"/>
+        <descriptors id="alps" href="http://tools.ietf.org/html/draft-amundsen-richardson-foster-alps-01"/>
+        <descriptors id="tags"/>
+    </descriptors>
 </alps>
