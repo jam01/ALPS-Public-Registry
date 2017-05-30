@@ -3,14 +3,14 @@
     <doc>ALPS Document to describe APR API</doc>
 
     <descriptors id="add" type="unsafe">
-        <descriptors href="#profile"/>
+        <descriptors href="#entry"/>
     </descriptors>
 
     <descriptors id="searchByTitle" type="safe">
         <descriptors href="#title"/>
     </descriptors>
 
-    <descriptors id="profile" type="semantic">
+    <descriptors id="entry" type="semantic">
         <descriptors id="title"/>
         <descriptors id="alps" href="http://tools.ietf.org/html/draft-amundsen-richardson-foster-alps-01"/>
         <descriptors id="tags"/>

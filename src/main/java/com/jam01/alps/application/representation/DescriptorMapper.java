@@ -1,4 +1,4 @@
-package com.jam01.alps.application.dto;
+package com.jam01.alps.application.representation;
 
 import com.jam01.alps.domain.Descriptor;
 import com.jam01.alps.domain.DescriptorMatrix;
@@ -20,10 +20,10 @@ import java.util.stream.Collectors;
  * Created by jam01 on 4/7/17.
  */
 public class DescriptorMapper {
-	private static DescriptorDTO mappedFrom(Descriptor descriptor) {
-		DescriptorDTO toReturn = new DescriptorDTO();
+	private static DescriptorRepresentation mappedFrom(Descriptor descriptor) {
+		DescriptorRepresentation toReturn = new DescriptorRepresentation();
 		toReturn.type = descriptor.getType().toString().toLowerCase();
-		toReturn.doc = DocDTO.mapFrom(descriptor.getDoc());
+		toReturn.doc = DocRepresentation.mapFrom(descriptor.getDoc());
 		toReturn.name = descriptor.getName();
 		toReturn.id = descriptor.getId() != null ? descriptor.getId().getValue() : null;
 		toReturn.href = descriptor.getSuperDescriptor() != null ? descriptor.getSuperDescriptor().get_Id().toASCIIString() : null;
@@ -39,14 +39,13 @@ public class DescriptorMapper {
 		return toReturn;
 	}
 
-	public static List<DescriptorDTO> mappedFrom(List<Descriptor> descriptors) {
+	public static List<DescriptorRepresentation> mappedFrom(List<Descriptor> descriptors) {
 		if (descriptors != null)
 			return descriptors.stream().map(DescriptorMapper::mappedFrom).collect(Collectors.toList());
 		else return null;
 	}
 
-
-	public static Descriptor mapFrom(DescriptorDTO dto) {
+	public static Descriptor mapFrom(DescriptorRepresentation dto) {
 		Descriptor toReturn = null;
 
 		if (dto != null) {
@@ -69,14 +68,14 @@ public class DescriptorMapper {
 				descType = Type.SEMANTIC;
 			else
 				try {
-					descType = Type.valueOf(dto.type);
+					descType = Type.valueOf(dto.type.toUpperCase());
 				} catch (IllegalArgumentException e) {
 					throw new ValidationException("Invalid type value. See section 2.2.12");
 				}
 
 			toReturn = new Descriptor(
 					Id.from(dto.id),
-					DocDTO.mapFrom(dto.doc),
+					DocRepresentation.mapFrom(dto.doc),
 					dto.name,
 					descType,
 					uriId);
@@ -85,18 +84,17 @@ public class DescriptorMapper {
 		return toReturn;
 	}
 
-
-	public static List<Descriptor> mapFrom(List<DescriptorDTO> descriptorDTOs) {
-		if (descriptorDTOs != null)
-			return descriptorDTOs.stream().map(DescriptorMapper::mapFrom).collect(Collectors.toList());
+	public static List<Descriptor> mapFrom(List<DescriptorRepresentation> descriptorRepresentations) {
+		if (descriptorRepresentations != null)
+			return descriptorRepresentations.stream().map(DescriptorMapper::mapFrom).collect(Collectors.toList());
 		return null;
 	}
 
-	public static DescriptorMatrix generateMatrix(DescriptorDTO dto) {
+	public static DescriptorMatrix generateMatrix(DescriptorRepresentation dto) {
 		return generateDepthFirstMatrix(dto, new DescriptorMatrix());
 	}
 
-	private static DescriptorMatrix generateDepthFirstMatrix(DescriptorDTO dto, DescriptorMatrix matrix) {
+	private static DescriptorMatrix generateDepthFirstMatrix(DescriptorRepresentation dto, DescriptorMatrix matrix) {
 		// Add current node to matrix
 		Descriptor toAdd = mapFrom(dto);
 		matrix.addDescriptor(toAdd);
@@ -113,7 +111,7 @@ public class DescriptorMapper {
 		}
 
 		if (!dto.descriptor.isEmpty()) {
-			Iterator<DescriptorDTO> children = dto.descriptor.iterator();
+			Iterator<DescriptorRepresentation> children = dto.descriptor.iterator();
 			while (true) {
 				if (children.hasNext()) {
 					// Recursively fill matrix

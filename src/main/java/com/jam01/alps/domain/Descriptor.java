@@ -18,9 +18,9 @@ public class Descriptor {
 	private Ext ext;
 	private List<Descriptor> descriptors = new ArrayList<>();
 
-	public Descriptor(Id id, Doc doc, String name) {
-		this(id, doc, name, Type.SEMANTIC, null);
-	}
+//	public Descriptor(Id id, Doc doc, String name) {
+//		this(id, doc, name, Type.SEMANTIC, new URI(null, null, id));
+//	}
 
 	public Descriptor(Id id, Doc doc, String name, Type type, URI uri) {
 		this.id = id;

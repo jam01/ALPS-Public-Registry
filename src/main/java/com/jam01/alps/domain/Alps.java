@@ -6,16 +6,20 @@ import java.util.stream.Collectors;
 
 /**
  * Created by jam01 on 4/4/17.
- *
+ * <p>
  * Created a domain model for application/alps per
  * Vernon, V., & Evans, E. (2015). Implementing domain-driven design, 137-138
  */
+
 public class Alps {
 	private String version;
 	private Doc doc;
 	private List<Descriptor> roots = new ArrayList<>();
 	private Map<URI, Descriptor> descriptorMap = new HashMap<>();
-	private Link link;
+//	private Link link;
+
+	private Alps() {
+	}
 
 	public Alps(String version, Doc doc, List<DescriptorMatrix> graphs) {
 		this.version = version;
@@ -57,9 +61,9 @@ public class Alps {
 
 	}
 
-	public Link getLink() {
-		return link;
-	}
+//	public Link getLink() {
+//		return link;
+//	}
 
 	public String getVersion() {
 		return version;
@@ -76,4 +80,5 @@ public class Alps {
 	public void setRoots(List<Descriptor> roots) {
 		this.roots = roots;
 	}
+
 }

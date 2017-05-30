@@ -1,32 +1,32 @@
-package com.jam01.alps.application.dto;
+package com.jam01.alps.application.representation;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import com.jam01.alps.domain.Doc;
 import com.jam01.alps.domain.Format;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlValue;
 
 /**
  * Created by jam01 on 4/5/17.
  */
 
-public class DocDTO {
-	@XmlAttribute
+public class DocRepresentation {
+	@JacksonXmlProperty(isAttribute = true)
 	public String format;
-	@XmlValue
+	@JacksonXmlText
 	public String value;
 
-	public static DocDTO mapFrom(Doc doc) {
-		DocDTO toReturn = null;
+	public static DocRepresentation mapFrom(Doc doc) {
+		DocRepresentation toReturn = null;
 		if (doc != null) {
-			toReturn = new DocDTO();
+			toReturn = new DocRepresentation();
 			toReturn.format = doc.getFormat().toString().toLowerCase();
 			toReturn.value = doc.getValue();
 		}
 		return toReturn;
 	}
 
-	public static Doc mapFrom(DocDTO dto) {
+	public static Doc mapFrom(DocRepresentation dto) {
 		Doc toReturn = null;
 
 		if (dto != null) {

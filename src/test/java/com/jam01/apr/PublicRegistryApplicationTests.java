@@ -1,4 +1,4 @@
-package com.jam01.alps.registry;
+package com.jam01.apr;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
