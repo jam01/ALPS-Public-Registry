@@ -1,8 +1,6 @@
 package com.jam01.apr;
 
-import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
-import com.jam01.alps.application.AlpsService;
+import com.jam01.alps.application.AlpsMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,21 +16,16 @@ public class PublicRegistryApplication {
 		SpringApplication.run(PublicRegistryApplication.class, args);
 	}
 
-	@Bean
-	AlpsService alpsService() {
-		return new AlpsService();
-	}
+//	@Bean
+//	Module jaxbAnnotationModule() {
+//		return new JaxbAnnotationModule();
+//	}
 
 	@Bean
-	Module jaxbAnnotationModule() {
-		return new JaxbAnnotationModule();
-	}
-
-	@Bean
-	public MappingJackson2HttpMessageConverter addAlpsConverter(AlpsService alpsService) {
+	public MappingJackson2HttpMessageConverter addAlpsConverter() {
 		MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
 		jsonConverter.setSupportedMediaTypes(Collections.singletonList(new MediaType("application", "alps+json")));
-		jsonConverter.setObjectMapper(alpsService.getJsonMapper());
+		jsonConverter.setObjectMapper(new AlpsMapper().getJsonMapper());
 
 		return jsonConverter;
 	}

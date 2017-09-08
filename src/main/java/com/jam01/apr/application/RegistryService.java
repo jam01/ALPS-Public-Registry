@@ -1,6 +1,5 @@
 package com.jam01.apr.application;
 
-import com.jam01.alps.application.representation.AlpsMapper;
 import com.jam01.alps.application.representation.AlpsRepresentation;
 import com.jam01.alps.domain.Alps;
 import com.jam01.apr.domain.registry.Entry;
@@ -31,11 +30,7 @@ public class RegistryService {
 		return registry.getAlpsBy(new EntryId(id));
 	}
 
-	public void add(String id, Alps alps) {
-		registry.save(new EntryId(id), alps);
-	}
-
 	public void add(String id, AlpsRepresentation representation) {
-		registry.save(new EntryId(id), AlpsMapper.mapFrom(representation));
+		registry.save(new EntryId(id), AlpsRepresentation.mapFrom(representation));
 	}
 }
