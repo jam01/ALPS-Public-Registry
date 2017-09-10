@@ -1,11 +1,16 @@
 package com.jam01.apr.adapter.web;
 
 import com.jam01.alps.application.representation.AlpsRepresentation;
+import com.jam01.alps.domain.exception.AlpsValidationException;
 import com.jam01.apr.adapter.web.representation.EntryRepresentation;
 import com.jam01.apr.application.RegistryService;
 import com.jam01.apr.domain.registry.Entry;
 import com.jam01.apr.domain.registry.EntryId;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -66,10 +71,16 @@ public class AprController {
 			method = RequestMethod.PUT,
 			value = "/api/{id}/alps",
 			consumes = {"application/alps+json", "application/alps+xml"},
-			produces = {"application/alps+json", "application/alps+xml"}
+			produces = {"application/json", "application/xml", "application/alps+json", "application/alps+xml"}
 	)
 	public AlpsRepresentation putAlps(@PathVariable String id, @RequestBody AlpsRepresentation representation) {
 		registryService.add(id, representation);
 		return (AlpsRepresentation.mapFrom(registryService.getAlpsById(id)));
+	}
+
+	// See: https://github.com/spring-projects/spring-boot/issues/1677#issuecomment-59021756
+	@ExceptionHandler(AlpsValidationException.class)
+	void handleAlpsValidationException(HttpServletResponse response) throws IOException {
+		response.sendError(HttpStatus.BAD_REQUEST.value());
 	}
 }
