@@ -6,6 +6,8 @@
         <descriptor href="#entry"/>
     </descriptor>
 
+    <descriptor id="getEntry" type="safe" rt="#entry"/>
+
     <descriptor id="updateEntry" type="idempotent">
         <descriptor href="#entry"/>
     </descriptor>
@@ -19,10 +21,10 @@
         <descriptor href="#title"/>
         <descriptor href="#keywords"/>
         <descriptor id="getAlps" type="safe" rt="http://tools.ietf.org/html/draft-amundsen-richardson-foster-alps-02#"/>
-        <descriptor id="putAlps" type="unsafe"
+        <descriptor id="putAlps" type="idempotent"
                     href="http://tools.ietf.org/html/draft-amundsen-richardson-foster-alps-02#"/>
     </descriptor>
 
-    <descriptor name="title" type="semantic"/>
-    <descriptor name="keyword" type="semantic"/>
+    <descriptor id="title" type="semantic"/>
+    <descriptor id="keywords" type="semantic"/>
 </alps>

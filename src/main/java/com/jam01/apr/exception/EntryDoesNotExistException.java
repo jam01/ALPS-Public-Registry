@@ -7,6 +7,6 @@ import com.jam01.apr.domain.registry.EntryId;
  */
 public class EntryDoesNotExistException extends RuntimeException {
 	public EntryDoesNotExistException(EntryId entryId) {
-		super(entryId + "does not exist in the registry.");
+		super(entryId.id + "does not exist in the registry.");
 	}
 }

@@ -39,6 +39,7 @@ public class AprController {
 		AprRepresentation toReturn = new AprRepresentation();
 
 		toReturn.add(linkTo(methodOn(AprController.class).addEntry(null)).withRel("addEntry"));
+		toReturn.add(linkTo(methodOn(AprController.class).getEntryOf(null)).withRel("getEntry"));
 		toReturn.add(linkTo(methodOn(AprController.class).updateEntry(null, null)).withRel("updateEntry"));
 		toReturn.add(linkTo(methodOn(AprController.class).searchEntries(null, null)).withRel("searchEntries"));
 
