@@ -4,6 +4,9 @@ import com.jam01.alps.application.AlpsMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.hateoas.UriTemplate;
+import org.springframework.hateoas.hal.CurieProvider;
+import org.springframework.hateoas.hal.DefaultCurieProvider;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
@@ -16,10 +19,10 @@ public class PublicRegistryApplication {
 		SpringApplication.run(PublicRegistryApplication.class, args);
 	}
 
-//	@Bean
-//	Module jaxbAnnotationModule() {
-//		return new JaxbAnnotationModule();
-//	}
+	public @Bean
+	CurieProvider curieProvider() {
+		return new DefaultCurieProvider("apr", new UriTemplate("/apr/0/alps#{rel}"));
+	}
 
 	@Bean
 	public MappingJackson2HttpMessageConverter addAlpsConverter() {

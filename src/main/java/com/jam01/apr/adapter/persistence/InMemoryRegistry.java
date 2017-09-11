@@ -1,11 +1,18 @@
 package com.jam01.apr.adapter.persistence;
 
+import com.jam01.alps.application.AlpsMapper;
 import com.jam01.alps.domain.Alps;
 import com.jam01.apr.domain.registry.Entry;
 import com.jam01.apr.domain.registry.EntryId;
 import com.jam01.apr.domain.registry.Registry;
+import com.jam01.apr.exception.EntryDoesNotExistException;
 import org.springframework.stereotype.Repository;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -21,6 +28,18 @@ public class InMemoryRegistry implements Registry {
 	public InMemoryRegistry() {
 		this.entryMap = new HashMap<>();
 		this.alpsMap = new HashMap<>();
+
+		Entry aprEntry = new Entry("ALPS Public Registry", new ArrayList<>(Arrays.asList("meta", "alps", "apr")));
+		aprEntry.setId(new EntryId("0"));
+		entryMap.put(aprEntry.getId(), aprEntry);
+
+		AlpsMapper mapper = new AlpsMapper();
+		try {
+			saveAlps(aprEntry.getId(), mapper.readValue(new String(Files.readAllBytes(Paths.get("src/main/resources/apr.xml"))),
+					AlpsMapper.DataType.XML));
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	@Override
@@ -29,11 +48,18 @@ public class InMemoryRegistry implements Registry {
 	}
 
 	@Override
-	public EntryId save(Entry entry) {
+	public Entry save(Entry entry) {
 		EntryId entryId = new EntryId(UUID.randomUUID().toString());
 		entryMap.put(entryId, entry);
+		entry.setId(entryId);
 
-		return entryId;
+		return entry;
+	}
+
+	@Override
+	public Entry update(Entry entry) {
+		entryMap.put(entry.getId(), entry);
+		return entry;
 	}
 
 	@Override
@@ -42,7 +68,12 @@ public class InMemoryRegistry implements Registry {
 	}
 
 	@Override
-	public void save(EntryId entryId, Alps alps) {
+	public Alps saveAlps(EntryId entryId, Alps alps) {
+		if (entryMap.get(entryId) == null)
+			throw new EntryDoesNotExistException(entryId);
+
 		alpsMap.put(entryId, alps);
+
+		return alps;
 	}
 }

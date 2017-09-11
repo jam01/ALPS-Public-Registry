@@ -9,9 +9,11 @@ import com.jam01.alps.domain.Alps;
 public interface Registry {
 	Entry getEntryBy(EntryId id);
 
-	EntryId save(Entry entry);
+	Entry save(Entry entry);
+
+	Entry update(Entry entry);
 
 	Alps getAlpsBy(EntryId id);
 
-	void save(EntryId entryId, Alps alps);
+	Alps saveAlps(EntryId entryId, Alps alps);
 }

@@ -8,11 +8,11 @@ import java.util.List;
 public class Entry {
 	private EntryId id;
 	private String title;
-	private List<String> tags;
+	private List<String> keywords;
 
-	public Entry(String title, List<String> tags) {
+	public Entry(String title, List<String> keywords) {
 		this.title = title;
-		this.tags = tags;
+		this.keywords = keywords;
 	}
 
 	public EntryId getId() {
@@ -27,15 +27,7 @@ public class Entry {
 		return title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public List<String> getTags() {
-		return tags;
-	}
-
-	public void setTags(List<String> tags) {
-		this.tags = tags;
+	public List<String> getKeywords() {
+		return keywords;
 	}
 }

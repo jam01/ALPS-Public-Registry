@@ -2,17 +2,27 @@
 <alps version="1.0">
     <doc>ALPS Document to describe APR API</doc>
 
-    <descriptors id="add" type="unsafe">
-        <descriptors href="#entry"/>
-    </descriptors>
+    <descriptor id="addEntry" type="unsafe">
+        <descriptor href="#entry"/>
+    </descriptor>
 
-    <descriptors id="searchByTitle" type="safe">
-        <descriptors href="#title"/>
-    </descriptors>
+    <descriptor id="updateEntry" type="idempotent">
+        <descriptor href="#entry"/>
+    </descriptor>
 
-    <descriptors id="entry" type="semantic">
-        <descriptors id="title"/>
-        <descriptors id="alps" href="http://tools.ietf.org/html/draft-amundsen-richardson-foster-alps-01"/>
-        <descriptors id="tags"/>
-    </descriptors>
+    <descriptor id="searchEntries" type="safe">
+        <descriptor href="#title"/>
+        <descriptor href="#keywords"/>
+    </descriptor>
+
+    <descriptor id="entry" type="semantic">
+        <descriptor href="#title"/>
+        <descriptor href="#keywords"/>
+        <descriptor id="getAlps" type="safe" rt="http://tools.ietf.org/html/draft-amundsen-richardson-foster-alps-02#"/>
+        <descriptor id="putAlps" type="unsafe"
+                    href="http://tools.ietf.org/html/draft-amundsen-richardson-foster-alps-02#"/>
+    </descriptor>
+
+    <descriptor name="title" type="semantic"/>
+    <descriptor name="keyword" type="semantic"/>
 </alps>
