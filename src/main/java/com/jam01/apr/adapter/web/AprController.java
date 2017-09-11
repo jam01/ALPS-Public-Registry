@@ -32,14 +32,14 @@ public class AprController {
 
 	@RequestMapping(
 			method = RequestMethod.GET,
-			value = "/apr/",
+			value = "/apr",
 			produces = {"application/hal+json", "application/hal+xml"}
 	)
 	public AprRepresentation getApr() {
 		AprRepresentation toReturn = new AprRepresentation();
 
 		toReturn.add(linkTo(methodOn(AprController.class).addEntry(null)).withRel("addEntry"));
-		toReturn.add(linkTo(methodOn(AprController.class).addEntry(null)).withRel("updateEntry"));
+		toReturn.add(linkTo(methodOn(AprController.class).updateEntry(null, null)).withRel("updateEntry"));
 		toReturn.add(linkTo(methodOn(AprController.class).searchEntries(null, null)).withRel("searchEntries"));
 
 		return toReturn;
@@ -73,7 +73,7 @@ public class AprController {
 
 	@RequestMapping(
 			method = RequestMethod.PUT,
-			value = "/apr/",
+			value = "/apr/{id}",
 			consumes = {"application/json", "application/xml"},
 			produces = {"application/hal+json", "application/hal+xml"}
 	)

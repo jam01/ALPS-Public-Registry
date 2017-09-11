@@ -6,11 +6,11 @@ import com.jam01.apr.domain.registry.Entry;
 import com.jam01.apr.domain.registry.EntryId;
 import com.jam01.apr.domain.registry.Registry;
 import com.jam01.apr.exception.EntryDoesNotExistException;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,8 +35,9 @@ public class InMemoryRegistry implements Registry {
 
 		AlpsMapper mapper = new AlpsMapper();
 		try {
-			saveAlps(aprEntry.getId(), mapper.readValue(new String(Files.readAllBytes(Paths.get("src/main/resources/apr.xml"))),
-					AlpsMapper.DataType.XML));
+			saveAlps(aprEntry.getId(),
+					mapper.readValue(new String(FileCopyUtils.copyToByteArray(new ClassPathResource("apr.xml").getInputStream())),
+							AlpsMapper.DataType.XML));
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
 		}
